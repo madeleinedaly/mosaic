@@ -1,5 +1,5 @@
 import ffmpeg
-import nmslib_vector
+import nmslib
 from PIL import Image
 import json
 import random
@@ -26,16 +26,16 @@ def video_patches(video_file, n_patches=100000, patch_size=(32, 32), frame_size=
     reader.close()
 
 def new_index():
-    return  [nmslib_vector.init(
+    return  [nmslib.init(
             'l1', [], 'small_world_rand',
-            nmslib_vector.DataType.VECTOR,
-            nmslib_vector.DistType.FLOAT), None, None]
+            nmslib.DataType.VECTOR,
+            nmslib.DistType.FLOAT), None, None]
 
 def init_index(idx, k=10):
     index_param = ['NN=%d' % k, 'initIndexAttempts=3', 'indexThreadQty=8']
     query_time_param = ['initSearchAttempts=3']
-    nmslib_vector.createIndex(idx[0], index_param)
-    nmslib_vector.setQueryTimeParams(idx[0], query_time_param)
+    nmslib.createIndex(idx[0], index_param)
+    nmslib.setQueryTimeParams(idx[0], query_time_param)
     idx[2] = k
 
 def mean_color(patch):
@@ -71,7 +71,7 @@ def hdr_blend(patch_a, patch_b):
 
     dist_a = color_distance(patch_a, mean)
     dist_b = color_distance(patch_b, mean)
-    
+
     #res = np.zeros(patch_a.shape, dtype=patch_a.dtype)
     #mask_a = dist_a >= dist_b
     #mask_b = np.logical_not(mask_a)
@@ -244,11 +244,11 @@ class PatchIndex(object):
         if index[1] is None:
             index[1] = vector.shape
         assert index[1] == vector.shape
-        nmslib_vector.addDataPoint(index[0], _id, list(vector))
+        nmslib.addDataPoint(index[0], _id, list(vector))
 
     def knn_query(self, index, vector):
         assert index[1] == vector.shape, repr((index[1], vector.shape))
-        return nmslib_vector.knnQuery(index[0], index[2], list(vector))
+        return nmslib.knnQuery(index[0], index[2], list(vector))
 
     def init_indexes(self):
         print 'init x'
@@ -393,4 +393,3 @@ class PatchIndex(object):
             prev_frame = frame
         reader.close()
         self.patches.freeze()
-
