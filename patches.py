@@ -32,8 +32,8 @@ def new_index():
             nmslib.DistType.FLOAT), None, None]
 
 def init_index(idx, k=10):
-    index_param = ['NN=%d' % k, 'initIndexAttempts=3', 'indexThreadQty=8']
-    query_time_param = ['initSearchAttempts=3']
+    index_param = ['NN=%d' % k, 'indexThreadQty=8']
+    query_time_param = []
     nmslib.createIndex(idx[0], index_param)
     nmslib.setQueryTimeParams(idx[0], query_time_param)
     idx[2] = k
