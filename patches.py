@@ -28,7 +28,7 @@ def video_patches(video_file, n_patches=100000, patch_size=(32, 32), frame_size=
 def new_index():
     return  [nmslib.init(
             'l1', [], 'small_world_rand',
-            nmslib.DataType.VECTOR,
+            nmslib.DataType.DENSE_VECTOR,
             nmslib.DistType.FLOAT), None, None]
 
 def init_index(idx, k=10):
