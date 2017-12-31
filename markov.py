@@ -128,7 +128,7 @@ class MarkovChain(object):
                 if i % 128 == 0:
                     pygame.display.flip()
                     # writer.write(cv2.cvtColor(img_out, cv2.COLOR_RGB2BGR))
-                    Image.fromarray(img_out).save('%03d.png' % i)
+                    Image.fromarray(img_out).save('%08d.png' % i)
                     pass
             except IndexError:
                 continue
